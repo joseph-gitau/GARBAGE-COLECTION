@@ -33,6 +33,31 @@ footer {
   right: 0;
 }
 
+/* rating button */
+#scroll-up-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+/* make the button to swing up and down even when not clicked */
+#scroll-up-button {
+  animation: swing 1s ease-in-out infinite alternate;
+}
+@keyframes swing {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-20px);
+  }
+}
+
 section {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

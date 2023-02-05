@@ -45,7 +45,7 @@
         </p>
       </div>
       <div id="user" class="column">
-        <h2>Make a request</h2>
+        <h2>Request for garbage collection.</h2>
         <p>
           Welcome to our Garbage Collection website! We are committed to
           providing you with the best possible waste management services to keep
@@ -114,11 +114,11 @@
         <h2 class="login-head">Fill in the following details</h2>
         <div>
         <form class="modal-form">
-          <input type="text" placeholder="Enter your full name" />
-          <input type="email" placeholder="Enter your email" />
-          <input type="text" placeholder="Enter your address" />
-          <input type="number" placeholder="Enter your telephone +254" />
-          <input type="date" value="Choose date for collection" />
+          <input type="text" placeholder="Enter your full name" required />
+          <input type="email" placeholder="Enter your email" required/>
+          <input type="text" placeholder="Enter your address" required />
+          <input type="number" placeholder="Enter your telephone +254" required />
+          <input type="date" value="Choose date for collection" required />
           <input type="submit" name="submit" value="Send Request" />
         </div>
         </form>
@@ -128,15 +128,12 @@
     <div id="rating-modal" class="modal">
       <div class="modal-content">
         <span class="rating-close-button">&times;</span>
-        <h2 class="login-head">Fill in the following details</h2>
+        <h2 class="login-head">we really want to improve on our service delivery</h2>
         <div>
+          <h3>how do you rate us?</h3>
         <form class="modal-form">
-          <input type="text" placeholder="Enter your full name" />
-          <input type="email" placeholder="Enter your email" />
-          <input type="text" placeholder="Enter your address" />
-          <input type="number" placeholder="Enter your telephone +254" />
-          <input type="date" value="Choose date for collection" />
-          <input type="submit" name="submit" value="Send Request" />
+          <input type="text" placeholder="what should we improve on?" required />
+          <input type="submit" name="submit" value="Submit Rating" />
         </div>
         </form>
       </div>

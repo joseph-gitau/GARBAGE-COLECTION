@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* header,
+      footer,
+      section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      } */
+
+      header {
+        background-color: lightgray;
+        display: flex;
+        justify-content: space-between;
+        /* padding: 20px; */
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+      }
+      ul li {
+        list-style: none;
+        margin: 0 10px;
+        display: inline;
+      }
+      ul li a {
+        text-decoration: none;
+        color: black;
+        text-transform: uppercase;
+      }
+      ul li a:hover {
+        color: red;
+        border-bottom: 2px solid red;
+      }
+
+      footer {
+        background-color: lightgray;
+        padding: 20px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      section {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-content: space-around;
+        gap: 20px;
+        background-color: lightblue;
+        margin-top: 100px;
+        padding: 20px;
+      }
+
+      .column {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+      .column:hover {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        transform: scale(1.05);
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+      }
+
+      .modal-content {
+        text-align: center;
+        background-color: white;
+        margin: 10% auto;
+        width: 50%;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      .modal-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .modal-form input {
+        width: 50%;
+        font-size: 1rem;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid lightgray;
+      }
+      /* modal submit button */
+      .modal-form input[type="submit"] {
+        background-color: rgba(255, 0, 0, 0.808);
+        border: none;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .modal-form input[type="submit"]:hover {
+        background-color: rgba(0, 128, 0, 0.943);
+      }
+      
+
+      .about-close-button {
+        float: right;
+        cursor: pointer;
+        font-size: 2rem;
+      }
+      .driver-close-button {
+        float: right;
+        cursor: pointer;
+        font-size: 2rem;
+      }
+      .request-close-button {
+        float: right;
+        cursor: pointer;
+        font-size: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="image">
+        <h3>Image</h3>
+      </div>
+      <div class="lists">
+        <ul>
+          <li><a href="#about-us" id="about-link">About Us</a></li>
+          <li><a href="#driver" id="driver-link">Driver</a></li>
+          <li><a href="#user" id="request-link">Request</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <section>
+      <div id="about-us" class="column">
+        <h2>About Us</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+          blandit dolor sit amet dolor lacinia, id commodo magna tristique.
+          Aliquam auctor libero euismod metus blandit, at aliquet diam placerat.
+          Sed id est auctor, molestie sapien vel, aliquet velit. Sed vel velit
+          vel velit eleifend venenatis id id diam. Sed tristique sit amet sapien
+          non congue. Sed euismod ex velit, et malesuada urna varius id.
+        </p>
+      </div>
+      <div id="driver" class="column">
+        <h2>Driver</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+          blandit dolor sit amet dolor lacinia, id commodo magna tristique.
+          Aliquam auctor libero euismod metus blandit, at aliquet diam placerat.
+          Sed id est auctor, molestie sapien vel, aliquet velit. Sed vel velit
+          vel velit eleifend venenatis id id diam. Sed tristique sit amet sapien
+          non congue. Sed euismod ex velit, et malesuada urna varius id.
+        </p>
+      </div>
+      <div id="user" class="column">
+        <h2>Make a request</h2>
+        <p>
+          Welcome to our Garbage Collection website! We are committed to
+          providing you with the best possible waste management services to keep
+          our community clean and healthy. If you have any waste that needs to
+          be collected, simply click on the "Request" button on our website. Our
+          team of professionals will be there to take care of your waste in an
+          efficient and eco-friendly manner. We believe that every effort
+          counts, and by working together we can make our community a cleaner
+          and greener place. Thank you for choosing us, and we look forward to
+          serving you soon.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <p>Copyright &copy; 2023</p>
+    </footer>
+
+    <!-- about modal aboutModal-->
+    <div id="about-modal" class="modal">
+      <div class="modal-content">
+        <span class="about-close-button">&times;</span>
+        <h2 class="login-head">About Us</h2>
+        <div>
+        <form class="modal-form">
+          <input type="text" placeholder="Enter your username" />
+          <input type="password" placeholder="Enter your password" />
+          <input type="submit" name="login" value="Login" />
+        </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- login modal for driver -->
+    <div id="login-modal" class="modal">
+      <div class="modal-content">
+        <span class="driver-close-button">&times;</span>
+        <h2 class="login-head">Login</h2>
+        <div>
+        <form class="modal-form">
+          <input type="text" placeholder="Enter your username" />
+          <input type="password" placeholder="Enter your password" />
+          <input type="submit" name="login" value="Login" />
+        </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- request modal -->
+    <div id="request-modal" class="modal">
+      <div class="modal-content">
+        <span class="request-close-button">&times;</span>
+        <h2 class="login-head">Fill in the following details</h2>
+        <div>
+        <form class="modal-form">
+          <input type="text" placeholder="Enter your username" />
+          <input type="password" placeholder="Enter your password" />
+          <input type="password" placeholder="Enter your password" />
+          <input type="password" placeholder="Enter your password" />
+          <input type="password" placeholder="Enter your password" />
+          <input type="submit" name="login" value="Login" />
+        </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      // navigation buttons selections
+      const aboutLink = document.getElementById("about-link");
+      const driverLink = document.getElementById("driver-link");
+      const requestLink = document.getElementById("request-link");
+      // modal selections
+      const aboutModal = document.getElementById("about-modal");
+      const loginModal = document.getElementById("login-modal");
+      const requestModal = document.getElementById("request-modal");
+      // close the modalselection
+      const closeButtonAbout = document.querySelector(".about-close-button");
+      const closeButtonDriver = document.querySelector(".driver-close-button");
+      const closeButtonRequest = document.querySelector(".request-close-button");
+
+      // open the modal when the about button is clicked
+      aboutLink.addEventListener("click", function () {
+        aboutModal.style.display = "block";
+      });
+      // open the modal when the request button is clicked
+      requestLink.addEventListener("click", function () {
+        requestModal.style.display = "block";
+      // open the modal when the driver button is clicked 
+      });
+      driverLink.addEventListener("click", function () {
+        loginModal.style.display = "block";
+      });
+      // close the modal when the close button is clicked for all modals
+      closeButtonAbout.addEventListener("click", function () {
+        aboutModal.style.display = "none";
+      });
+      closeButtonDriver.addEventListener("click", function () {
+        loginModal.style.display = "none";
+      });
+      closeButtonRequest.addEventListener("click", function () {
+        requestModal.style.display = "none";
+      });
+      
+      // close the modal when the user clicks outside the modal
+      window.addEventListener("click", function (event) {
+        if (event.target === loginModal || event.target === requestModal || event.target === aboutModal) {
+          aboutModal.style.display = "none";
+          loginModal.style.display = "none";
+          requestModal.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>

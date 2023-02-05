@@ -34,7 +34,7 @@ footer {
 }
 
 /* rating button */
-#scroll-up-button {
+#rating {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -46,7 +46,7 @@ footer {
   cursor: pointer;
 }
 /* make the button to swing up and down even when not clicked */
-#scroll-up-button {
+#rating {
   animation: swing 1s ease-in-out infinite alternate;
 }
 @keyframes swing {
@@ -123,7 +123,11 @@ section {
 .modal-form input[type="submit"]:hover {
   background-color: rgba(0, 128, 0, 0.943);
 }
-
+.rating-close-button {
+  float: right;
+  cursor: pointer;
+  font-size: 2rem;
+}
 .about-close-button {
   float: right;
   cursor: pointer;

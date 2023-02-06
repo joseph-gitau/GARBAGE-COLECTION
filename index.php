@@ -1,10 +1,27 @@
+<!-- php -->
+<?php
+require_once 'db.php';
+require_once './FUNCTIONS/insertstate.php';
+// Check if request value is submitted
+if (isset($_POST['requestgarbage'])) {
+  $fullname = $_POST['fullname'];
+  $email = $_POST['email'];
+  $adress = $_POST['adress'];
+  $phonenumber = $_POST['phonenumber'];
+  $collectiondate = $_POST['collectiondate'];
+} else {
+  echo "Not submitted";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/CSS/style.css">
+    <script src="jquery-3.6.1.min.js"></script>
+    <link rel="stylesheet" href="./CSS/style.css">
     <title>Garbage||Collection</title>
       </head>
   <body>
@@ -113,13 +130,13 @@
         <span class="request-close-button">&times;</span>
         <h2 class="login-head">Fill in the following details</h2>
         <div>
-        <form class="modal-form">
-          <input type="text" placeholder="Enter your full name" required />
-          <input type="email" placeholder="Enter your email" required/>
-          <input type="text" placeholder="Enter your address" required />
-          <input type="number" placeholder="Enter your telephone +254" required />
-          <input type="date" value="Choose date for collection" required />
-          <input type="submit" name="submit" value="Send Request" />
+        <form class="modal-form" action="index.php" method="POST">
+          <input type="text" name="fullname" placeholder="Enter your full name" required />
+          <input type="email" name="email" placeholder="Enter your email" required/>
+          <input type="text" name="adress" placeholder="Enter your address" required />
+          <input type="text" name="phonenumber" placeholder="Enter your telephone +254 " required />
+          <input type="date" name="collectiondate" value="Choose date for collection" required />
+          <input type="submit" name="requestgarbage" value="Send Request" />
         </div>
         </form>
       </div>
@@ -138,6 +155,7 @@
         </form>
       </div>
     </div>
-    <script src="/JS/main.js"></script>
+    <script src="./JS/main.js"></script>
+    <script src="./JS/jquery.js"></script>
   </body>
 </html>

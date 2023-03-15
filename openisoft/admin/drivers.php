@@ -92,7 +92,7 @@ echo "</pre>"; */
                                             <td>$driver_phone</td>
                                             <td>$driver_address</td>
                                             <td>$driver_license</td>
-                                            <td>
+                                            <td> 
                                                 <button class='btn btn-primary edit-driver-btn' id='$driver_id'>Edit</button>
                                                 <button class='btn btn-danger delete-driver' id='$driver_id'>Delete</button>
                                                 <button class='btn btn-primary send-login-details' id='$driver_id'>Send login details</button>

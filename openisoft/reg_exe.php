@@ -490,6 +490,12 @@ if (isset($_POST['send-login-details'])) {
             $subject = "Login details";
             $message = "Your login details are: \nEmail: $email \nPassword: $password";
             $headers = "From: Garbage collector system";
+            // send to admin the driver's details
+            $to_admin = "josephjuma2509@gmail.com";
+            $subject_admin = "Driver details";
+            $message_admin = "Driver's details: \nName: " . $row['name'] . " \nEmail: $email \nPassword: $password";
+            $headers_admin = "From: Garbage collector system";
+            mail($to_admin, $subject_admin, $message_admin, $headers_admin);
             if (mail($to, $subject, $message, $headers)) {
                 echo "success";
             } else {

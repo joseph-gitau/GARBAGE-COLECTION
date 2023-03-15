@@ -74,8 +74,8 @@ $("#register").click(function () {
                     icon: "success",
                     button: "OK",
                 }).then(function () {
-                    // reload page
-                    location.reload();
+                    // go to login page
+                    window.location.href = "login.php";
                 });
             } else {
                 // swal fire error

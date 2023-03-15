@@ -335,7 +335,9 @@ if (isset($_POST['edit-driver'])) {
             // redirect to drivers page with success message
             $_SESSION['message'] = "Driver updated successfully";
             $_SESSION['type'] = "success";
-            header("Location: admin/drivers.php");
+            // header("Location: admin/drivers.php");
+            // redirect using javascript
+            echo "<script>window.location.href = 'admin/drivers.php'</script>";
         } else {
             echo "Request failed" . mysqli_error($conn);
         }
@@ -383,7 +385,7 @@ if (isset($_POST['request-reply-view'])) {
                 <button type="submit" name="request-reply" class="btn btn-primary request-reply-view">Reply</button>
             </div>
 
-<?php
+        <?php
         }
     }
 }
@@ -409,7 +411,9 @@ if (isset($_POST['request-reply'])) {
         } */
         // redirect to requests page with error message
         $_SESSION['errors'] = $errors;
-        header("Location: admin/requests.php");
+        // header("Location: admin/requests.php");
+        // redirect using javascript
+        echo "<script>window.location.href = 'admin/requests.php';</script>";
     } else {
         // send email to user
         $to = $email;
@@ -420,9 +424,174 @@ if (isset($_POST['request-reply'])) {
             // redirect to requests page with success message
             $_SESSION['message'] = "Email sent successfully";
             $_SESSION['type'] = "success";
-            header("Location: admin/requests.php");
+            // header("Location: admin/requests.php");
+            // redirect using javascript
+            echo "<script>window.location.href = 'admin/requests.php';</script>";
         } else {
             echo "Request failed" . mysqli_error($conn);
         }
+    }
+}
+
+// contact
+if (isset($_POST['contact'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+    $errors = [];
+    if (empty($name)) {
+        $errors['name'] = "Name field is required";
+    }
+    if (empty($email)) {
+        $errors['email'] = "Email field is required";
+    }
+    if (empty($message)) {
+        $errors['message'] = "Message field is required";
+    }
+    if (count($errors) > 0) {
+        foreach ($errors as $key => $value) {
+            echo "<h5 style='color: red;'>$value</h5>";
+        }
+    } else {
+        // insert into database
+        $sql = "INSERT INTO contacts (name, email, message) VALUES ('$name', '$email', '$message')";
+        $result = mysqli_query($conn, $sql);
+        if ($result) {
+            echo "success";
+            // send email to admin
+            $to = "josephjuma2509@gmail.com";
+            $subject = "Contact form";
+            $message = "Name: $name \nEmail: $email \nMessage: $message";
+            $headers = "From: Garbage collector: $email";
+            mail($to, $subject, $message, $headers);
+            // send email to user
+            $to = $email;
+            $subject = "Message received";
+            $message = "Thank you for contacting us. We will get back to you shortly.";
+            $headers = "From: Garbage collector system";
+            mail($to, $subject, $message, $headers);
+        } else {
+            echo "Request failed" . mysqli_error($conn);
+        }
+    }
+}
+
+// send-login-details
+if (isset($_POST['send-login-details'])) {
+    $id = $_POST['id'];
+    $sql = "SELECT * FROM drivers WHERE id = '$id'";
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $email = $row['email'];
+            $password = $row['national_id'];
+            // send email to user
+            $to = $email;
+            $subject = "Login details";
+            $message = "Your login details are: \nEmail: $email \nPassword: $password";
+            $headers = "From: Garbage collector system";
+            if (mail($to, $subject, $message, $headers)) {
+                echo "success";
+            } else {
+                echo "Request failed" . mysqli_error($conn);
+            }
+        }
+    } else {
+        echo "Request failed" . mysqli_error($conn);
+    }
+}
+
+// request-rating-view
+if (isset($_POST['request-rating-view'])) {
+    $id = $_POST['id'];
+    $sql = "SELECT * FROM ratings WHERE id = '$id'";
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $name = $row['name'];
+            $email = $row['email'];
+            $message = $row['message'];
+        ?>
+            <!-- compose an email to send to user's email -->
+            <form action="../reg_exe.php" method="post">
+                <div class="form-control">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" placeholder="Enter your name" value="<?php echo $name ?>" readonly>
+                </div>
+                <!-- email -->
+                <div class="form-control">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="Enter your email" value="<?php echo $email ?>" readonly>
+                </div>
+                <!-- message -->
+                <div class="form-control">
+                    <label for="message">Message</label>
+                    <textarea name="message" id="message" cols="30" rows="10" placeholder="Enter your message" readonly><?php echo $message ?></textarea>
+                </div>
+                <!-- your reply -->
+                <div class="form-control">
+                    <label for="reply">Your reply</label>
+                    <textarea name="reply" id="reply" cols="30" rows="10" placeholder="Enter your reply"></textarea>
+                </div>
+                <!-- hidden id -->
+                <input type="hidden" name="id" value="<?php echo $id ?>">
+                <!-- submit -->
+                <div class="form-control request-reply-rqst">
+                    <button type="submit" name="rating-reply" class="btn btn-primary request-reply-view">Reply</button>
+                </div>
+            </form>
+
+<?php
+        }
+    }
+}
+// rating-reply
+if (isset($_POST['rating-reply'])) {
+    $id = $_POST['id'];
+    $reply = $_POST['reply'];
+    // get name, email and message
+    $sql = "SELECT * FROM ratings WHERE id = '$id'";
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $name = $row['name'];
+            $email = $row['email'];
+            $message = $row['message'];
+        }
+        $errors = [];
+        if (empty($reply)) {
+            $errors['reply'] = "Reply field is required";
+        }
+        if (count($errors) > 0) {
+            // display errors
+            foreach ($errors as $key => $value) {
+                echo "<h5 style='color: red;'>$value</h5>";
+            }
+            echo "this page will redirect in 3 seconds" . "<br>";
+            echo "If it doesn't redirect, click <a href='admin/ratings.php'>here</a>";
+            // redirect after 3 seconds using javascript
+            echo "<script>setTimeout(() => {
+                window.location.href = 'admin/ratings.php';
+            }, 3000);</script>";
+        } else {
+            // send email to user
+            $to = $email;
+            $subject = "Reply to your rating";
+            $message = "Your rating: \nName: $name \nEmail: $email \nMessage: $message \n\nReply: $reply";
+            $headers = "From: Garbage collector system";
+            if (mail($to, $subject, $message, $headers)) {
+                echo "success";
+            } else {
+                echo "Request failed" . mysqli_error($conn) . "<br>";
+                echo "this page will redirect in 3 seconds" . "<br>";
+                echo "If it doesn't redirect, click <a href='admin/ratings.php'>here</a>";
+                // redirect after 3 seconds using javascript
+                echo "<script>setTimeout(() => {
+                    window.location.href = 'admin/ratings.php';
+                }, 3000);</script>";
+            }
+        }
+    } else {
+        echo "Request failed" . mysqli_error($conn);
     }
 }

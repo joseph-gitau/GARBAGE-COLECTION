@@ -44,7 +44,7 @@ echo "</pre>"; */
                             // get session message
                             $message = $_SESSION['message'];
                             // display session message
-                            echo "<p class='message'>$message</p>";
+                            echo "<p class='message success'>$message</p>";
                             // unset session message
                             unset($_SESSION['message']);
                         }
@@ -95,6 +95,7 @@ echo "</pre>"; */
                                             <td>
                                                 <button class='btn btn-primary edit-driver-btn' id='$driver_id'>Edit</button>
                                                 <button class='btn btn-danger delete-driver' id='$driver_id'>Delete</button>
+                                                <button class='btn btn-primary send-login-details' id='$driver_id'>Send login details</button>
                                             </td>
                                         </tr>
                                         ";

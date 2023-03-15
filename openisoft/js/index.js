@@ -441,3 +441,123 @@ $(".request-reply").click(function () {
         }
     });
 });
+// contact-btn
+$(".contact-btn").click(function () {
+    event.preventDefault();
+    // run custom waitme
+    run_waitMe_custom('roundBounce', '.contact-rqst', 'Sending Message...', 'horizontal');
+    // send request
+    var formData = new FormData();
+    formData.append('name', $('#contact-name').val());
+    formData.append('email', $('#contact-email').val());
+    formData.append('message', $('#contact-message').val());
+    formData.append('contact', true);
+    $.ajax({
+        url: "reg_exe.php",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            // stop waitme
+            $('.contact-rqst').waitMe('hide');
+            if (data == "success") {
+                // hide custom waitme
+                $('.contact-rqst').waitMe('hide');
+                // swal fire success
+                swal.fire({
+                    title: "Success",
+                    text: "Message sent successfully!",
+                    icon: "success",
+                    button: "OK",
+                }).then(function () {
+                    // clear form
+                    $('.contact-rqst').trigger("reset");
+                });
+            } else {
+                // swal fire error
+                swal.fire({
+                    title: "Error",
+                    html: data,
+                    icon: "error",
+                    button: "OK",
+                })
+            }
+        }
+    });
+});
+// send-login-details
+$(".send-login-details").click(function () {
+    event.preventDefault();
+    // get this id
+    var id = $(this).attr('id');
+    // run custom waitme
+    run_waitMe_custom('roundBounce', '.drivers-table', 'Sending Login Details...', 'horizontal');
+    // send request
+    var formData = new FormData();
+    formData.append('id', id);
+    formData.append('send-login-details', true);
+    $.ajax({
+        url: "../reg_exe.php",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            // stop waitme
+            $('.drivers-table').waitMe('hide');
+            if (data == "success") {
+                // swal fire success
+                swal.fire({
+                    title: "Success",
+                    text: "Login details sent successfully!",
+                    icon: "success",
+                    button: "OK",
+                })
+            } else {
+                // swal fire error
+                swal.fire({
+                    title: "Error",
+                    html: data,
+                    icon: "error",
+                    button: "OK",
+                })
+            }
+        }
+    });
+});
+
+// request-rating-data
+$(".request-rating-data").click(function () {
+    event.preventDefault();
+    // get this data-id
+    var id = $(this).attr('data-id');
+    // open reply-rating modal
+    $('#reply-rating').modal('show');
+    // run custom waitme
+    run_waitMe_custom('roundBounce', '#request', 'Loading...', 'horizontal');
+    // get the current row data
+    var formData = new FormData();
+    formData.append('id', id);
+    formData.append('request-rating-view', true);
+    $.ajax({
+        url: "../reg_exe.php",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            // stop waitme
+            $('#request').waitMe('hide');
+            // set the data
+            $('#reply-rating-data').html(data);
+        }
+    });
+});
+
+/* // reply-rating
+$(".reply-rating").click(function () {
+    event.preventDefault();
+    // get this data-id
+    var id = $(this).attr('data-id');
+    // get this */

@@ -68,6 +68,8 @@ echo "</pre>"; */
                                     $rating = $row['rating'];
                                     // get the request message
                                     $message = $row['message'];
+                                    // trim message to 2 words if it is more than 2 words then add ...
+                                    $message = (strlen($message) > 20) ? substr($message, 0, 20) . "..." : $message;
                                     // get the request date
                                     $date = $row['created_at'];
                                     // display the request
@@ -79,7 +81,7 @@ echo "</pre>"; */
                                         <td>$message</td>
                                         <td>$date</td>
                                         <td>
-                                            <button class='view btn btn-success' data-id='$rating_id'>Reply</button>
+                                            <button class='view btn btn-success request-rating-data' data-id='$rating_id'>Reply</button>
                                         </td>
                                     </tr>";
                                 }
@@ -101,6 +103,15 @@ echo "</pre>"; */
             <h3>View Request</h3>
         </div>
         <div class="modal-body" id="request-view-data">
+
+        </div>
+    </div>
+    <!-- rating reply modal -->
+    <div class="modal" id="reply-rating">
+        <div class="modal-header">
+            <h3>Reply to a rating</h3>
+        </div>
+        <div class="modal-body" id="reply-rating-data">
 
         </div>
     </div>

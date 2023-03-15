@@ -31,6 +31,10 @@ if (!isset($_SESSION)) {
                 <div class="form-control login">
                     <button type="submit" name="submit" class="btn btn-primary" id="login">Login</button>
                 </div>
+                <div class="form-control already">
+                    <p>Don't have an account?</p>
+                    <a href="register.php">Register</a>
+                </div>
             </form>
         </div>
     </div>

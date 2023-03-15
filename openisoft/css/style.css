@@ -339,3 +339,45 @@ li a {
   margin: 20px auto;
   color: green;
 }
+.already {
+  display: flex;
+  justify-content: flex-start;
+}
+#about {
+  max-width: 60vw;
+  height: auto;
+  background-color: #f1f1f1;
+  padding: 20px;
+}
+
+.content p {
+  line-height: 1.5;
+  font-size: 1rem;
+  margin: 10px 0;
+}
+.content p a {
+  color: #0080ff;
+  text-decoration: none;
+}
+.content p a:hover {
+  text-decoration: underline;
+}
+.active-scroll {
+  background-color: #0080ff;
+  color: #fff !important;
+  padding: 6px 10px;
+}
+.success {
+  color: green;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px auto;
+}
+.error {
+  color: red;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px auto;
+}

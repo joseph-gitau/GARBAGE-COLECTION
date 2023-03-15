@@ -36,8 +36,14 @@ echo "</pre>"; */
                 <div class="cards">
                     <div class="card-single">
                         <div class="card-single-head">
+                            <?php
+                            include "../dbh.php";
+                            $sql = "SELECT * FROM requests";
+                            $result = mysqli_query($conn, $sql);
+                            $requests = mysqli_num_rows($result);
+                            ?>
                             <h4>Requests</h4>
-                            <span>20</span>
+                            <span><?php echo $requests; ?></span>
                         </div>
                         <div class="card-single-footer">
                             <span class="las la-clipboard-list"></span>
@@ -46,8 +52,13 @@ echo "</pre>"; */
                     <!-- nw -->
                     <div class="card-single">
                         <div class="card-single-head">
+                            <?php
+                            $sql2 = "SELECT * FROM drivers";
+                            $result2 = mysqli_query($conn, $sql2);
+                            $drivers = mysqli_num_rows($result2);
+                            ?>
                             <h4>Drivers</h4>
-                            <span>20</span>
+                            <span><?php echo $drivers; ?></span>
                         </div>
                         <div class="card-single-footer">
                             <span class="las la-clipboard-list"></span>
@@ -57,7 +68,7 @@ echo "</pre>"; */
                     <div class="card-single">
                         <div class="card-single-head">
                             <h4>Confirmed requests</h4>
-                            <span>20</span>
+                            <span>0</span>
                         </div>
                         <div class="card-single-footer">
                             <span class="las la-clipboard-list"></span>
@@ -66,8 +77,13 @@ echo "</pre>"; */
                     <!-- nw -->
                     <div class="card-single">
                         <div class="card-single-head">
+                            <?php
+                            $sql3 = "SELECT * FROM ratings";
+                            $result3 = mysqli_query($conn, $sql3);
+                            $ratings = mysqli_num_rows($result3);
+                            ?>
                             <h4>Ratings</h4>
-                            <span>20</span>
+                            <span><?php echo $ratings ?></span>
                         </div>
                         <div class="card-single-footer">
                             <span class="las la-clipboard-list"></span>
@@ -77,6 +93,16 @@ echo "</pre>"; */
                     <div class="card-single">
                         <div class="card-single-head">
                             <h4>Contacts</h4>
+                            <span>20</span>
+                        </div>
+                        <div class="card-single-footer">
+                            <span class="las la-clipboard-list"></span>
+                        </div>
+                    </div>
+                    <!-- nw -->
+                    <div class="card-single">
+                        <div class="card-single-head">
+                            <h4>Completed requests</h4>
                             <span>20</span>
                         </div>
                         <div class="card-single-footer">

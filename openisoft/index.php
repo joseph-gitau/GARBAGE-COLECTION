@@ -14,13 +14,15 @@
     <header>
         <nav>
             <div class="left">
-                <h1 class="logo">Garbage collection system</h1>
+                <a href="index.php">
+                    <h1 class="logo">Garbage collection system</h1>
+                </a>
             </div>
             <div class="right">
                 <ul>
                     <li><a href="admin/index.php">Admin</a></li>
-                    <li><a href="#contact">Contact us</a></li>
-                    <li><a href="#">About us</a></li>
+                    <li><a href="#contact" class="contact-link">Contact us</a></li>
+                    <li><a href="#about" rel="modal:open">About us</a></li>
                     <li><a href="#">Driver</a></li>
                     <li><a href="#request" rel="modal:open">Request</a></li>
                     <li><a href="#rate" rel="modal:open">Rate us</a></li>
@@ -76,12 +78,14 @@
                     </a>
                 </ul>
             </div>
-            <div class="footer-section-contact-form">
-                <h2>Contact us</h2>
+            <div class="footer-section-contact-form" id="contact-fm1">
+                <h2 class="contact-fm1-h2">Contact us</h2>
                 <br>
-                <form action="index.html" method="post">
-                    <input type="email" name="email" class="text-input contact-input" placeholder="Your email address...">
-                    <textarea rows="4" name="message" class="text-input contact-input" placeholder="Your message..."></textarea>
+                <form action="index.html" method="post" class="contact-rqst">
+                    <!-- name -->
+                    <input type="text" name="name" id="contact-name" class="text-input contact-input" placeholder="Your name...">
+                    <input type="email" name="email" id="contact-email" class="text-input contact-input" placeholder="Your email address...">
+                    <textarea rows="4" name="message" id="contact-message" class="text-input contact-input" placeholder="Your message..."></textarea>
                     <button type="submit" class="btn btn-big contact-btn">
                         <i class="fas fa-envelope"></i>
                         Send
@@ -175,6 +179,24 @@
             </form>
         </div>
     </div>
+    <!-- about us modal -->
+    <div class="modal" id="about">
+        <div class="modal-header">
+            <h3>About us</h3>
+        </div>
+        <div class="content">
+            <p>Welcome to Waste Management Solutions! We are here to provide you with the best waste collection and disposal services in the industry. Our company is committed to providing you with the most reliable and efficient waste management solutions.</p>
+
+            <p>We provide waste collection and disposal services for both residential and commercial customers. Our services include collection, transportation and disposal of all types of waste, including hazardous, organic and general waste. We offer flexible pickup schedules and competitive pricing.</p>
+
+            <p>Our team of experienced professionals is here to ensure that the waste is collected and disposed of safely and efficiently. We use the latest technology and equipment to ensure that the waste is collected and disposed of in an environmentally friendly manner. We also offer advice and guidance on waste management and disposal methods.</p>
+
+            <p>At Waste Management Solutions, we understand the importance of keeping our environment clean and safe. We strive to provide the best waste management solutions that are both efficient and cost-effective. We are committed to providing our customers with the best possible service and are dedicated to helping them achieve the highest standards in waste management.</p>
+
+            <p>If you have any questions or would like more information about our services, please feel free to <a href="mailto:contact@wastemanagement.com">contact us</a>. We look forward to hearing from you!</p>
+        </div>
+    </div>
+    <!-- nw -->
     <script src="js/index.js"></script>
     <script>
         // Get all star elements
@@ -200,6 +222,14 @@
                 const ratingInput = document.getElementById('rate-rating');
                 ratingInput.value = star.getAttribute('data-value');
             });
+        });
+        // contact-link click event go to contact section and highlight header
+        $('#contact-link').click(function() {
+            $('html, body').animate({
+                scrollTop: $('#contact-fm1').offset().top
+            }, 1000);
+            // add active-scroll class to .footer-section-contact-form h2
+            $('.contact-fm1-h2').addClass('active-scroll');
         });
     </script>
 </body>

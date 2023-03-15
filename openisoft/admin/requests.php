@@ -32,6 +32,29 @@ echo "</pre>"; */
             <div class="requests">
                 <h3>Requests</h3>
                 <div class="requests-table">
+                    <?php
+                    // if isset errors
+                    if (isset($_SESSION['errors'])) {
+                        // get errors
+                        $errors = $_SESSION['errors'];
+                        // loop through errors
+                        foreach ($errors as $error) {
+                            // display errors
+                            echo "<div class='error'>$error</div>";
+                        }
+                        // unset errors
+                        unset($_SESSION['errors']);
+                    }
+                    // if isset message
+                    if (isset($_SESSION['message'])) {
+                        // get message
+                        $message = $_SESSION['message'];
+                        // display message
+                        echo "<div class='message'>$message</div>";
+                        // unset message
+                        unset($_SESSION['message']);
+                    }
+                    ?>
                     <table>
                         <thead>
                             <tr>
@@ -74,7 +97,7 @@ echo "</pre>"; */
                                     <td>$address</td>
                                     <td>$date</td>
                                     <td>
-                                        <a href='reply.php?request_id=$request_id' class='btn btn-success'>Reply</a>
+                                        <a href='reply.php?request_id=$request_id' id='$request_id' class='btn btn-success request-reply'>Reply</a>
                                         <button id='$request_id' class='btn btn-primary request-view'><i class='fas fa-eye'></i></button>
                                         <a href='delete.php?request_id=$request_id' class='btn btn-danger'><i class='fas fa-trash'></i></a>
                                     </td>
@@ -102,7 +125,16 @@ echo "</pre>"; */
 
         </div>
     </div>
-    <script src="../js/index.js"></script>
+    <!-- request-reply -->
+    <div class="modal" id="request-reply">
+        <div class="modal-header">
+            <h3>Reply</h3>
+        </div>
+        <form action="../reg_exe.php" method="post">
+            <div class="modal-body" id="request-reply-data">
+            </div>
+        </form>
+        <script src="../js/index.js"></script>
 </body>
 
 </html>

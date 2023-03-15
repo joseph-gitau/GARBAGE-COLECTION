@@ -131,6 +131,7 @@
             email VARCHAR(50) NOT NULL,
             username VARCHAR(50) NOT NULL,
             password VARCHAR(255) NOT NULL,
+            image VARCHAR(255) NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=INNODB;";
 
@@ -143,10 +144,21 @@
             message VARCHAR(255) NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=INNODB;";
+        // drivers table
+        $sql4 = "CREATE TABLE IF NOT EXISTS drivers (
+            id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            national_id VARCHAR(20) NOT NULL,
+            email VARCHAR(50) NOT NULL,
+            phone VARCHAR(15) NOT NULL,
+            address VARCHAR(100) NOT NULL,
+            license VARCHAR(100) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=INNODB;";
         $statements[] = $sql1;
         $statements[] =  $sql2;
         $statements[] =  $sql3;
-        /*$statements[] =  $sql4;*/
+        $statements[] =  $sql4;
         // $statements[] = $sql5;
         // $statements[] = $sql6;
 

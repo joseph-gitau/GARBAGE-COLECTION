@@ -28,53 +28,111 @@ echo "</pre>"; */
             <?php include "sidebar.php"; ?>
         </div>
         <div class="right">
-        </div>
-    </div>
+            <div class="requests">
+                <div class="request-header">
+                    <h1>Garbage collection system: Dashboard</h1>
+                </div>
+                <!-- dashboard cards -->
+                <div class="cards">
+                    <div class="card-single">
+                        <div class="card-single-head">
+                            <h4>Requests</h4>
+                            <span>20</span>
+                        </div>
+                        <div class="card-single-footer">
+                            <span class="las la-clipboard-list"></span>
+                        </div>
+                    </div>
+                    <!-- nw -->
+                    <div class="card-single">
+                        <div class="card-single-head">
+                            <h4>Drivers</h4>
+                            <span>20</span>
+                        </div>
+                        <div class="card-single-footer">
+                            <span class="las la-clipboard-list"></span>
+                        </div>
+                    </div>
+                    <!-- nw -->
+                    <div class="card-single">
+                        <div class="card-single-head">
+                            <h4>Confirmed requests</h4>
+                            <span>20</span>
+                        </div>
+                        <div class="card-single-footer">
+                            <span class="las la-clipboard-list"></span>
+                        </div>
+                    </div>
+                    <!-- nw -->
+                    <div class="card-single">
+                        <div class="card-single-head">
+                            <h4>Ratings</h4>
+                            <span>20</span>
+                        </div>
+                        <div class="card-single-footer">
+                            <span class="las la-clipboard-list"></span>
+                        </div>
+                    </div>
+                    <!-- nw -->
+                    <div class="card-single">
+                        <div class="card-single-head">
+                            <h4>Contacts</h4>
+                            <span>20</span>
+                        </div>
+                        <div class="card-single-footer">
+                            <span class="las la-clipboard-list"></span>
+                        </div>
+                    </div>
+                    <!-- nw -->
 
-    <!-- request modal -->
-    <div class="modal" id="request">
-        <div class="modal-header">
-            <h3>Request garbage collection</h3>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-            <form action="/reg_exe.php" method="POST">
-                <!-- name -->
-                <div class="form-control">
-                    <label for="name">Name</label>
-                    <input type="text" name="name" id="name" placeholder="Enter your name">
-                </div>
-                <!-- email -->
-                <div class="form-control">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder="Enter your email">
-                </div>
-                <!-- phone -->
-                <div class="form-control">
-                    <label for="phone">Phone</label>
-                    <input type="text" name="phone" id="phone" placeholder="Enter your phone">
-                </div>
-                <!-- address -->
-                <div class="form-control">
-                    <label for="address">Address</label>
-                    <input type="text" name="address" id="address" placeholder="Enter your address">
-                    <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8171113.99594693!2d33.4087042871386!3d0.16510130764820577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182780d08350900f%3A0x403b0eb0a1976dd9!2sKenya!5e0!3m2!1sen!2ske!4v1678802809823!5m2!1sen!2ske" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> -->
-                </div>
-                <!-- date of garbage request -->
-                <div class="form-control">
-                    <label for="date">Date</label>
-                    <input type="date" name="date" id="date" placeholder="Enter date">
-                </div>
-                <!-- submit -->
-                <div class="form-control snd-rqst">
-                    <button type="submit" name="submit" class="btn btn-primary" id="send-request">Send request</button>
-                </div>
-            </form>
+
+        <!-- request modal -->
+        <div class="modal" id="request">
+            <div class="modal-header">
+                <h3>Request garbage collection</h3>
+            </div>
+            <div class="modal-body">
+                <form action="/reg_exe.php" method="POST">
+                    <!-- name -->
+                    <div class="form-control">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" placeholder="Enter your name">
+                    </div>
+                    <!-- email -->
+                    <div class="form-control">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" placeholder="Enter your email">
+                    </div>
+                    <!-- phone -->
+                    <div class="form-control">
+                        <label for="phone">Phone</label>
+                        <input type="text" name="phone" id="phone" placeholder="Enter your phone">
+                    </div>
+                    <!-- address -->
+                    <div class="form-control">
+                        <label for="address">Address</label>
+                        <input type="text" name="address" id="address" placeholder="Enter your address">
+                        <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8171113.99594693!2d33.4087042871386!3d0.16510130764820577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182780d08350900f%3A0x403b0eb0a1976dd9!2sKenya!5e0!3m2!1sen!2ske!4v1678802809823!5m2!1sen!2ske" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> -->
+                    </div>
+                    <!-- date of garbage request -->
+                    <div class="form-control">
+                        <label for="date">Date</label>
+                        <input type="date" name="date" id="date" placeholder="Enter date">
+                    </div>
+                    <!-- submit -->
+                    <div class="form-control snd-rqst">
+                        <button type="submit" name="submit" class="btn btn-primary" id="send-request">Send request</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!-- <p>Modal Footer</p> -->
+            </div>
         </div>
-        <div class="modal-footer">
-            <!-- <p>Modal Footer</p> -->
-        </div>
-    </div>
-    <script src="../js/index.js"></script>
+        <script src="../js/index.js"></script>
 
 </body>
 

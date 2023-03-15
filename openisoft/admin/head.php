@@ -1,6 +1,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- icon -->
+<link rel="icon" href="../resources/images/garbage-icon.png">
 <!-- jqury modal css -->
 <link rel="stylesheet" href="../resources/burt/css/jquery.modal.min.css">
 <!-- jquery -->
@@ -30,4 +32,4 @@
         $('.chosen-select').chosen();
     });
 </script>
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/style.css?<?php echo rand(); ?>">

@@ -3,6 +3,8 @@
 
 <head>
     <?php include "resources/burt/burt_header.html"; ?>
+    <!-- icon -->
+    <link rel="icon" href="resources/images/garbage-icon.png">
     <link rel="stylesheet" href="css/style.css">
     <title>Garbage collection system</title>
 </head>

@@ -281,3 +281,61 @@ li a {
 .active-star {
   background-image: url("../resources/images/star-filled.png");
 }
+
+/* --Dashboard--- */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 30px auto;
+  width: 95%;
+}
+.card-single {
+  flex-basis: calc(100% / 4 - 20px);
+  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+.card-single:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: #0080ff;
+  color: #fff !important;
+}
+.card-single-head {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-single-header h4 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #000;
+}
+.card-single-head span {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #000;
+}
+.card-single-header i {
+  font-size: 1.5rem;
+  color: #0080ff;
+}
+.request-header h1 {
+  text-align: center;
+  margin: 20px auto;
+  font-size: 2rem;
+}
+
+.drivers-header {
+  margin: 20px auto;
+}
+.messages-header {
+  margin: 20px auto;
+  color: green;
+}

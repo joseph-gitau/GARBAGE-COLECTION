@@ -289,6 +289,8 @@ echo "</pre>"; */
     <div class="modal" id="view-my-requests">
         <div class="modal-header">
             <h3>VIEW ALL YOUR REQUESTS</h3>
+            <!-- print requests receipt -->
+            <button class="btn btn-primary" id="print-request-receipt">Print requests</button>
         </div>
         <div class="modal-body">
             <div class="vr-requests">
@@ -511,6 +513,12 @@ echo "</pre>"; */
                     }
                 }
             });
+        });
+        $('#print-request-receipt').click(function() {
+            console.log('print-request-receipt clicked');
+            // load fetch_requests.php on new page
+            window.open('fetch_requests.php', '_blank');
+
         });
     </script>
 </body>

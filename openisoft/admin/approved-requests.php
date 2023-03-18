@@ -61,9 +61,8 @@ echo "</pre>"; */
                                 <th>Request ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <!-- <th>Phone</th> -->
+                                <th>Phone</th>
                                 <th>Address</th>
-                                <th>Accepted by driver</th>
                                 <!-- <th>Message</th> -->
                                 <th>Date</th>
                                 <th>Actions</th>
@@ -74,7 +73,7 @@ echo "</pre>"; */
                             // include database connection
                             include "../dbh.php";
                             // select all requests
-                            $sql = "SELECT * FROM requests";
+                            $sql = "SELECT * FROM requests WHERE approved_requests = 'yes'";
                             $result = mysqli_query($conn, $sql);
                             // if there are requests
                             if (mysqli_num_rows($result) > 0) {
@@ -88,34 +87,25 @@ echo "</pre>"; */
                                     $email = $row['email'];
                                     $phone = $row['phone'];
                                     $address = $row['address'];
-                                    $driver = $row['driver'];
-                                    if ($driver != 0) {
-                                        $driver = "Yes";
-                                        $check = "<a href='approve.php?request_id=$request_id' data-id='$request_id' class='btn btn-success admin-approve-request'><i class='fas fa-check'></i></a>";
-                                    } else {
-                                        $driver = "No";
-                                        $check = "";
-                                    }
                                     // $message = $row['message'];
                                     $date = $row['date'];
                                     echo "<tr>
                                     <td>#$request_id</td>
                                     <td>$name</td>
                                     <td>$email</td>
+                                    <td>$phone</td>
                                     <td>$address</td>
-                                    <td>$driver</td>
                                     <td>$date</td>
                                     <td>
                                         <a href='reply.php?request_id=$request_id' id='$request_id' class='btn btn-success request-reply'>Reply</a>
                                         <button id='$request_id' class='btn btn-primary request-view'><i class='fas fa-eye'></i></button>
                                         <a href='delete.php?request_id=$request_id' class='btn btn-danger'><i class='fas fa-trash'></i></a>
-                                        $check
                                     </td>
                                 </tr>";
                                 }
                             } else {
                                 echo "<tr>
-                                <td colspan='7'>No requests</td>
+                                <td colspan='7'>No approved requests</td>
                             </tr>";
                             }
                             ?>
@@ -145,53 +135,6 @@ echo "</pre>"; */
             </div>
         </form>
         <script src="../js/index.js"></script>
-    </div>
-    <script>
-        // add "approve" tooltip to .admin-approve-request on hover
-        $(document).ready(function() {
-            $('.admin-approve-request').hover(function() {
-                $(this).attr('title', 'Approve');
-            });
-        });
-        // .admin-approve-request on click send ajax request to approve.php
-        $('.admin-approve-request').click(function(e) {
-            e.preventDefault();
-            var request_id = $(this).attr('data-id');
-            // run custom waime function
-            run_waitMe_custom('roundBounce', '.requests-table', 'Approving request...', 'horizontal');
-            $.ajax({
-                url: '../reg_exe.php',
-                type: 'POST',
-                data: {
-                    approve_request_id: request_id
-                },
-                success: function(data) {
-                    // remove waitMe
-                    $('.requests-table').waitMe('hide');
-                    if (data == "success") {
-                        // swal fire success
-                        swal.fire({
-                            title: "Success",
-                            text: "request approved successfully!",
-                            icon: "success",
-                            button: "OK",
-                        }).then(function() {
-                            // reload page
-                            location.reload();
-                        });
-                    } else {
-                        // swal fire error
-                        swal.fire({
-                            title: "Error",
-                            html: data,
-                            icon: "error",
-                            button: "OK",
-                        })
-                    }
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

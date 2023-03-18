@@ -584,7 +584,7 @@ if (isset($_POST['request-rating-view'])) {
                 </div>
             </form>
 
-<?php
+    <?php
         }
     }
 }
@@ -827,5 +827,113 @@ if (isset($_POST['cancel_request_id'])) {
         echo "success";
     } else {
         echo "Request failed" . mysqli_error($conn);
+    }
+}
+// approve_request_id
+if (isset($_POST['approve_request_id'])) {
+    $id = $_POST['approve_request_id'];
+    $sql = "UPDATE requests SET approved_requests = 'yes' WHERE id = '$id'";
+    if (mysqli_query($conn, $sql)) {
+        echo "success";
+    } else {
+        echo "Request failed" . mysqli_error($conn);
+    }
+}
+// request_contact_data
+if (isset($_POST['request_contact_data'])) {
+    $id = $_POST['id'];
+    $sql = "SELECT * FROM contacts WHERE id = '$id'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $name = $row['name'];
+    $email = $row['email'];
+    $message = $row['message'];
+    ?>
+    <form action="../reg_exe.php" method="post">
+        <div class="form-control">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" value="<?php echo $name; ?>" disabled>
+        </div>
+        <div class="form-control">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" value="<?php echo $email; ?>" disabled>
+        </div>
+        <div class="form-control">
+            <label for="message">Message</label>
+            <textarea name="message" id="message" cols="30" rows="10" disabled><?php echo $message; ?></textarea>
+        </div>
+        <div class="form-control">
+            <label for="reply">Reply</label>
+            <textarea name="reply" id="reply" cols="30" rows="10"></textarea>
+        </div>
+        <div class="form-control reply-contact-rst">
+            <input type="submit" name="reply-contact" value="Reply" class="btn btn-success reply-contact-send">
+        </div>
+    </form>
+    <script>
+        $('.reply-contact-send').click(function() {
+            event.preventDefault();
+
+            var reply = $('#reply').val();
+            if (reply == "") {
+                alert('Reply field is required');
+                return false;
+            } else {
+                // run custom waitme
+                run_waitMe_custom('roundBounce', '.reply-contact-rst', 'Sending reply...', 'horizontal');
+                // send reply to contact
+                $.ajax({
+                    url: '../reg_exe.php',
+                    method: 'post',
+                    data: {
+                        reply: reply,
+                        id: <?php echo $id; ?>
+                    },
+                    success: function(response) {
+                        $('.reply-contact-rst').waitMe('hide');
+                        if (response == "success") {
+                            swal.fire({
+                                title: "Success",
+                                text: "Reply sent successfully",
+                                icon: "success",
+                                button: "Ok",
+                            }).then(function() {
+                                location.reload();
+                            });
+                        } else {
+                            swal.fire({
+                                title: "Error",
+                                text: response,
+                                icon: "error",
+                                button: "Ok",
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+<?php
+}
+
+// reply
+if (isset($_POST['reply'])) {
+    $reply = $_POST['reply'];
+    $id = $_POST['id'];
+    // get contact email, name
+    $sql = "SELECT * FROM contacts WHERE id = '$id'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $email = $row['email'];
+    $name = $row['name'];
+    // send reply to contact
+    $to = $email;
+    $subject = "Reply from admin";
+    $message = $reply;
+    $headers = "From: shakingmachine@rs3.rcnoc.com";
+    if (mail($to, $subject, $message, $headers)) {
+        echo "success";
+    } else {
+        echo "Request failed";
     }
 }

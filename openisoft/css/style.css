@@ -482,3 +482,17 @@ li a {
 .driver-copy[title]:focus::after {
   visibility: visible; /* show tooltip on focus (for accessibility) */
 }
+.vr-requests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+/* vr-request-card */
+.vr-request-card {
+  width: 95%;
+  margin: 10px auto;
+  border: 1px solid transparent;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}

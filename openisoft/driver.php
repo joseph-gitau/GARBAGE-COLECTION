@@ -36,7 +36,7 @@ echo "</pre>"; */
                 <ul>
                     <li><a href="#contact" class="contact-link">Contact us</a></li>
                     <li><a href="#about" rel="modal:open">About us</a></li>
-                    <li><a href="driver.php">My requests</a></li>
+                    <li><a href="#view-my-requests" rel="modal:open">My requests</a></li>
                     <li><a href="#request" rel="modal:open">Request</a></li>
                     <li><a href="#rate" rel="modal:open">Rate us</a></li>
                     <li><a href="auth/logout.php">Logout</a></li>
@@ -53,7 +53,7 @@ echo "</pre>"; */
         <div class="available-requests-body">
             <?php
             include "dbh.php";
-            $sql = "SELECT id, message, date, address FROM requests WHERE status = 'pending'";
+            $sql = "SELECT id, message, date, address FROM requests WHERE status = 'pending' OR status = 'cancelled'";
             $result = mysqli_query($conn, $sql);
             $resultCheck = mysqli_num_rows($result);
             if ($resultCheck > 0) {
@@ -285,6 +285,50 @@ echo "</pre>"; */
             </div>
         </div>
     </div>
+    <!-- view my requests modal -->
+    <div class="modal" id="view-my-requests">
+        <div class="modal-header">
+            <h3>VIEW ALL YOUR REQUESTS</h3>
+        </div>
+        <div class="modal-body">
+            <div class="vr-requests">
+                <?php
+                include "dbh.php";
+                $uid = $_SESSION['user_id'];
+                $sql = "SELECT * FROM requests WHERE driver = '$uid'";
+                $result = mysqli_query($conn, $sql);
+                $resultCheck = mysqli_num_rows($result);
+                if ($resultCheck > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<div class='vr-request-card'>
+                                <h3>Request ID: #" . $row['id'] . "</h3>
+                                <h5><b>Name:</b> " . $row['name'] . "</h5>
+                                <h5><b>Message:</b> " . $row['message'] . "</h5>
+                                <h5><b>Date:</b> " . $row['date'] . "</h5>
+                                <h5><b>Address:</b> <span class='driver-copy' title='Click to copy'>" . $row['address'] . "</span></h5>
+                                <h6><b>Hint:</b> Copy the address and paste it in <a href='https://maps.google.com/' style='color: blue;' target='_blank'>google maps</a> to see the location</h6>
+                                <!-- cancel request -->
+                                <button class='btn btn-danger cancel-request' data-id='" . $row['id'] . "'>Cancel Request</button>
+                            </div>";
+                    }
+                } else {
+                    echo "<h3>You have no requests</h3>";
+                }
+                ?>
+                <!-- <div class="vr-request-card">
+                    <h3>Request ID: #3</h3>
+                    <h5><b>Name:</b> John doe</h5>
+                    <h5><b>Message:</b> I have a lot of garbage</h5>
+                    <h5><b>Date:</b> 2021-05-05</h5>
+                    <h5><b>Address:</b> <span class="driver-copy" title="Click to copy">1234, 5th street, New York, NY</span></h5>
+                    <h6><b>Hint:</b> Copy the address and paste it in <a href="https://maps.google.com/" style="color: blue;" target="_blank">google maps</a> to see the location</h6>
+                <button class="btn btn-danger">Cancel Request</button>
+            </div> -->
+                <!-- nw -->
+
+            </div>
+        </div>
+    </div>
     <!-- nw -->
     <script src="js/index.js"></script>
     <script>
@@ -427,6 +471,44 @@ echo "</pre>"; */
                     $('#driver-view-request').waitMe('hide');
                     // driver-view-request-content html
                     $('.driver-view-request-content').html(data);
+                }
+            });
+        });
+        // nw
+        // cancel-request
+        $('.cancel-request').click(function() {
+            var id = $(this).attr('data-id');
+            // run custom waitme on this .vr-request-card
+            run_waitMe_custom('roundBounce', '#view-my-requests', 'Loading...', 'horizontal');
+            $.ajax({
+                url: 'reg_exe.php',
+                type: 'POST',
+                data: {
+                    cancel_request_id: id
+                },
+                success: function(data) {
+                    // stop waitme
+                    $('#view-my-requests').waitMe('hide');
+                    if (data == "success") {
+                        // swal fire success
+                        swal.fire({
+                            title: "Success",
+                            text: "Request cancelled successfully!",
+                            icon: "success",
+                            button: "OK",
+                        }).then(function() {
+                            // reload page
+                            location.reload();
+                        });
+                    } else {
+                        // swal fire error
+                        swal.fire({
+                            title: "Error",
+                            html: data,
+                            icon: "error",
+                            button: "OK",
+                        })
+                    }
                 }
             });
         });

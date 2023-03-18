@@ -112,8 +112,13 @@ echo "</pre>"; */
                     <!-- nw -->
                     <div class="card-single">
                         <div class="card-single-head">
-                            <h4>Completed requests</h4>
-                            <span>20</span>
+                            <?php
+                            $sql6 = "SELECT * FROM requests WHERE status = 'cancelled'";
+                            $result6 = mysqli_query($conn, $sql6);
+                            $cancelled = mysqli_num_rows($result6);
+                            ?>
+                            <h4>Cancelled requests</h4>
+                            <span><?php echo $cancelled; ?></span>
                         </div>
                         <div class="card-single-footer">
                             <span class="las la-clipboard-list"></span>

@@ -818,3 +818,14 @@ if (isset($_POST['update-profile-admin'])) {
         }
     }
 }
+
+// cancel_request_id
+if (isset($_POST['cancel_request_id'])) {
+    $id = $_POST['cancel_request_id'];
+    $sql = "UPDATE requests SET status = 'cancelled', driver = '0' WHERE id = '$id'";
+    if (mysqli_query($conn, $sql)) {
+        echo "success";
+    } else {
+        echo "Request failed" . mysqli_error($conn);
+    }
+}

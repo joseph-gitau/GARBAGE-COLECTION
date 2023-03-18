@@ -98,6 +98,7 @@ $("#login").click(function () {
     var formData = new FormData();
     formData.append('username', $('#username').val());
     formData.append('password', $('#password').val());
+    formData.append('driver', $('#driver').val());
     formData.append('login', true);
     $.ajax({
         url: "../reg_exe.php",
@@ -108,7 +109,8 @@ $("#login").click(function () {
         success: function (data) {
             // stop waitme
             $('.login').waitMe('hide');
-            if (data == "success") {
+            // if data contains success 
+            if (data.includes("success")) {
                 // swal fire success
                 swal.fire({
                     title: "Success",
@@ -117,7 +119,10 @@ $("#login").click(function () {
                     button: "OK",
                 }).then(function () {
                     // window location
-                    window.location.href = "index.php";
+                    // get the rest of text from data excluding success
+                    var rest = data.replace("success", "");
+                    // go to the page
+                    window.location.href = rest;
                 });
             } else {
                 // swal fire error
@@ -561,3 +566,57 @@ $(".reply-rating").click(function () {
     // get this data-id
     var id = $(this).attr('data-id');
     // get this */
+
+// update-profile-admin
+$(".update-profile-admin").click(function () {
+    event.preventDefault();
+    // run custom waitme
+    run_waitMe_custom('roundBounce', '.profile-rqst', 'Updating Profile...', 'horizontal');
+    var file = $('#image')[0].files[0];
+    if ((file == undefined) || (file == null)) {
+        temp = "no_image";
+    } else {
+        temp = "image";
+    }
+    // send request
+    var formData = new FormData();
+    formData.append('name', $('#name').val());
+    formData.append('email', $('#email').val());
+    formData.append('password', $('#password').val());
+    formData.append('new-password', $('#new-password').val());
+    formData.append('confirm-new-password', $('#confirm-new-password').val());
+    formData.append('image', file);
+    formData.append('temp', temp);
+    formData.append('update-profile-admin', true);
+    $.ajax({
+        url: "../reg_exe.php",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            // stop waitme
+            $('.profile-rqst').waitMe('hide');
+            if (data == "success") {
+                // swal fire success
+                swal.fire({
+                    title: "Success",
+                    text: "Profile updated successfully!",
+                    icon: "success",
+                    button: "OK",
+                }).then(function () {
+                    // reload page
+                    location.reload();
+                });
+            } else {
+                // swal fire error
+                swal.fire({
+                    title: "Error",
+                    html: data,
+                    icon: "error",
+                    button: "OK",
+                })
+            }
+        }
+    });
+});

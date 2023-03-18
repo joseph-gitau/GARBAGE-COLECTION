@@ -121,6 +121,8 @@
             phone VARCHAR(15) NOT NULL,
             address VARCHAR(100) NOT NULL,
             message VARCHAR(255) NOT NULL,
+            status VARCHAR(20) NOT NULL,
+            driver int(11) NOT NULL,
             date DATE NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=INNODB;";

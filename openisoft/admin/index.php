@@ -67,8 +67,13 @@ echo "</pre>"; */
                     <!-- nw -->
                     <div class="card-single">
                         <div class="card-single-head">
+                            <?php
+                            $sql4 = "SELECT * FROM requests WHERE status = 'accepted'";
+                            $result4 = mysqli_query($conn, $sql4);
+                            $accepted = mysqli_num_rows($result4);
+                            ?>
                             <h4>Confirmed requests</h4>
-                            <span>0</span>
+                            <span><?php echo $accepted; ?></span>
                         </div>
                         <div class="card-single-footer">
                             <span class="las la-clipboard-list"></span>
@@ -92,8 +97,13 @@ echo "</pre>"; */
                     <!-- nw -->
                     <div class="card-single">
                         <div class="card-single-head">
+                            <?php
+                            $sql5 = "SELECT * FROM contacts";
+                            $result5 = mysqli_query($conn, $sql5);
+                            $contacts = mysqli_num_rows($result5);
+                            ?>
                             <h4>Contacts</h4>
-                            <span>20</span>
+                            <span><?php echo $contacts; ?></span>
                         </div>
                         <div class="card-single-footer">
                             <span class="las la-clipboard-list"></span>

@@ -8,8 +8,11 @@ if (!isset($_SESSION)) {
 <html lang="en">
 
 <head>
-    <?php include "head.php"; ?>
-    <title>Admin - Garbage collection system</title>
+    <?php include "../admin/head.php"; ?>
+    <!-- icon -->
+    <link rel="icon" href="../resources/images/garbage-icon.png">
+    <link rel="stylesheet" href="../css/style.css?v=<?php echo rand(); ?>">
+    <title>Driver login - Garbage collection system</title>
 </head>
 
 <body>
@@ -27,15 +30,12 @@ if (!isset($_SESSION)) {
                 <div class="form-control">
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password" placeholder="Enter your password">
-                    <input type="hidden" name="driver" value="admin" id="driver">
+                    <input type="hidden" name="driver" value="driver" id="driver">
                 </div>
                 <div class="form-control login">
                     <button type="submit" name="submit" class="btn btn-primary" id="login">Login</button>
                 </div>
-                <div class="form-control already">
-                    <p>Don't have an account?</p>
-                    <a href="register.php">Register</a>
-                </div>
+
             </form>
         </div>
     </div>

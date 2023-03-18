@@ -1,3 +1,16 @@
+<?php
+// if session is not set start session
+if (!isset($_SESSION)) {
+    session_start();
+}
+if (!isset($_SESSION['user_id'])) {
+    header("Location: auth/login.php");
+}
+/* echo "<pre>";
+print_r($_SESSION);
+echo "</pre>"; */
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,9 +18,9 @@
     <?php include "resources/burt/burt_header.html"; ?>
     <!-- icon -->
     <link rel="icon" href="resources/images/garbage-icon.png">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=<?php echo rand(); ?>">
     <script src="https://maps.googleapis.com/maps/api/js"></script>
-    <title>Garbage collection system</title>
+    <title>Driver - Garbage collection system</title>
 </head>
 
 <body>
@@ -21,24 +34,75 @@
             </div>
             <div class="right">
                 <ul>
-                    <li><a href="admin/index.php">Admin</a></li>
                     <li><a href="#contact" class="contact-link">Contact us</a></li>
                     <li><a href="#about" rel="modal:open">About us</a></li>
-                    <li><a href="driver.php">Driver</a></li>
+                    <li><a href="driver.php">My requests</a></li>
                     <li><a href="#request" rel="modal:open">Request</a></li>
                     <li><a href="#rate" rel="modal:open">Rate us</a></li>
+                    <li><a href="auth/logout.php">Logout</a></li>
                 </ul>
             </div>
         </nav>
     </header>
-    <!-- hero -->
-    <section class="hero">
-        <div class="hero-text">
-            <h1>Garbage collection system</h1>
-            <p>Garbage collection system is a web application that allows users to request for garbage collection services. The system also allows drivers to accept the requests and collect the garbage.</p>
-            <a href="#" class="btn btn-primary">Get started</a>
+    <!-- nw -->
+    <!-- available requests -->
+    <div class="available-requests">
+        <div class="available-requests-header">
+            <h1>Available requests</h1>
         </div>
-    </section>
+        <div class="available-requests-body">
+            <?php
+            include "dbh.php";
+            $sql = "SELECT id, message, date, address FROM requests WHERE status = 'pending'";
+            $result = mysqli_query($conn, $sql);
+            $resultCheck = mysqli_num_rows($result);
+            if ($resultCheck > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo '
+                    <div class="request-card">
+                        <div class="request-card-header">
+                            <h3>Request ID: ' . $row['id'] . '</h3>
+                        </div>
+                        <div class="request-card-body">
+                            <p> ' . $row['message'] . '</p>
+                        </div>
+                        <div class="request-card-footer">
+                        <input type="hidden" name="driver-address" id="driver-address">
+                        <input type="hidden" name="driver-date" id="driver-date">
+                            <a href="#driver-view-request" rel="modal:open" class="btn btn-primary driver-view-request" data-id="' . $row['id'] . '">View request</a>
+                        </div>
+                    </div>
+                    ';
+                }
+            } else {
+                echo "<div class='request-card'>
+                <div class='request-card-header'>
+                    <h3>No requests available</h3>
+                </div>
+                <div class='request-card-body'>
+                    <p> No requests available at the moment. </p>
+                </div>
+                <div class='request-card-footer'>
+                    <a href='driver.php' class='btn btn-primary'>Refresh</a>
+                </div>
+                </div>";
+            }
+            ?>
+            <!-- request card, with id and message, view request -->
+            <!-- <div class="request-card">
+                <div class="request-card-header">
+                    <h3>Request ID: 1</h3>
+                </div>
+                <div class="request-card-body">
+                    <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae. </p>
+                </div>
+                <div class="request-card-footer">
+                    <a href="request.php" class="btn btn-primary">View request</a>
+                </div>
+            </div> -->
+            <!-- nw -->
+        </div>
+    </div>
     <!-- footer -->
     <footer>
         <div class="footer-content">
@@ -200,6 +264,27 @@
             <p>If you have any questions or would like more information about our services, please feel free to <a href="mailto:contact@wastemanagement.com">contact us</a>. We look forward to hearing from you!</p>
         </div>
     </div>
+    <!-- driver-view-request modal -->
+    <div class="modal" id="driver-view-request">
+        <div class="modal-header">
+            <h3>VIEW REQUEST</h3>
+        </div>
+        <div class="modal-body">
+            <div class="driver-view-request-content">
+                <!-- name -->
+                <h5><b>Name:</b> John doe</h5>
+                <!-- message -->
+                <h5><b>Message:</b> I have a lot of garbage</h5>
+                <!-- date -->
+                <h5><b>Date:</b> 2021-05-05</h5>
+                <!-- address -->
+                <h5><b>Address:</b> <span class="driver-copy" title="Click to copy">1234, 5th street, New York, NY</span></h5>
+                <!-- hint user to copy address and paste in google maps to see the location -->
+                <h6><b>Hint:</b> Copy the address and paste it in <a href="https://maps.google.com/" style="color: blue;" target="_blank">google maps</a> to see the location</h6>
+
+            </div>
+        </div>
+    </div>
     <!-- nw -->
     <script src="js/index.js"></script>
     <script>
@@ -289,6 +374,62 @@
         }
 
         google.maps.event.addDomListener(window, 'load', initialize);
+
+        // nw
+        // on driver-copy click copy the address
+        $('.driver-copy').click(function() {
+            // get the address
+            var address = $(this).text();
+            // create a temporary input element
+            var $temp = $("<input>");
+            // append the temporary input element to the body
+            $("body").append($temp);
+            // set the value of the temporary input element to the address
+            $temp.val(address).select();
+            // copy the address
+            document.execCommand("copy");
+            // remove the temporary input element
+            $temp.remove();
+            // animate to show the user that the address is copied
+            $(this).animate({
+                opacity: 0.25
+            }, 1000, function() {
+                $(this).animate({
+                    opacity: 1
+                }, 1000);
+                $(this).attr('title', 'Copied');
+            });
+            setTimeout(function() {
+                $(this).attr('title', 'Copied');
+            }, 1000);
+            $(this).attr('title', 'Click to copy');
+        });
+        // nw
+        // driver-view-request click event
+        $('.driver-view-request').click(function() {
+            console.log('driver-view-request clicked');
+            event.preventDefault();
+            // get the request id
+            var request_id = $(this).attr('data-id');
+            // send ajax request to get the request details
+            $('.driver-view-request-content').html('');
+            // run custom waitme
+            run_waitMe_custom('roundBounce', '#driver-view-request', 'Loading...', 'horizontal');
+
+            $.ajax({
+                url: 'reg_exe.php',
+                type: 'POST',
+                data: {
+                    request_id: request_id
+                },
+                success: function(data) {
+                    // remove waitme
+                    $('#driver-view-request').waitMe('hide');
+                    // driver-view-request-content html
+                    $('.driver-view-request-content').html(data);
+                }
+            });
+        });
     </script>
 </body>
 

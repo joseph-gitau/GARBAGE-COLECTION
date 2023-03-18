@@ -67,7 +67,7 @@ echo "</pre>"; */
                         </div>
                         <!-- password -->
                         <div class="form-control">
-                            <label for="password">Password</label>
+                            <label for="password">Current Password</label>
                             <input type="password" name="password" id="password" placeholder="Driver's password">
                         </div>
                         <!-- new password -->
@@ -89,8 +89,8 @@ echo "</pre>"; */
                             <input type="file" name="image" id="image" onchange="showPreview(event);">
                         </div>
                         <!-- submit -->
-                        <div class="form-control">
-                            <input type="submit" name="update" value="Update" class="btn btn-primary">
+                        <div class="form-control profile-rqst">
+                            <input type="submit" name="update" value="Update" class="btn btn-primary update-profile-admin">
                         </div>
                     </form>
                 </div>

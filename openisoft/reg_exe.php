@@ -38,7 +38,7 @@ if (isset($_POST['send-request'])) {
             echo "<h5 style='color: red;'>$value</h5>";
         }
     } else {
-        $sql = "INSERT INTO requests (name, email, phone, address, message, date) VALUES ('$name', '$email', '$phone', '$address', '$message', '$date')";
+        $sql = "INSERT INTO requests (name, email, phone, address, message, status, date) VALUES ('$name', '$email', '$phone', '$address', '$message', 'pending', '$date')";
         $result = mysqli_query($conn, $sql);
         if ($result) {
             echo "success";
@@ -98,32 +98,69 @@ if (isset($_POST['register'])) {
 
 // login
 if (isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $errors = [];
-    if (empty($username)) {
-        $errors['username'] = "Username field is required";
-    }
-    if (empty($password)) {
-        $errors['password'] = "Password field is required";
-    }
-    if (count($errors) > 0) {
-        foreach ($errors as $key => $value) {
-            echo "<h5 style='color: red;'>$value</h5>";
+    if (isset($_POST['driver']) and $_POST['driver'] == "driver") {
+        $url = "../driver.php";
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $errors = [];
+        if (empty($username)) {
+            $errors['username'] = "Username field is required";
         }
-    } else {
-        $sql = "SELECT * FROM admins WHERE username = '$username' AND password = '$password'";
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            $_SESSION['user_id'] = $row['id'];
-            echo "success";
-            // pretty dump session
-            /* echo "<pre>";
+        if (empty($password)) {
+            $errors['password'] = "Password field is required";
+        }
+        if (count($errors) > 0) {
+            foreach ($errors as $key => $value) {
+                echo "<h5 style='color: red;'>$value</h5>";
+            }
+        } else {
+            $sql = "SELECT * FROM drivers WHERE email = '$username' AND national_id = '$password'";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_assoc($result);
+                $_SESSION['user_id'] = $row['id'];
+                echo "success";
+                echo $url;
+                // pretty dump session
+                /* echo "<pre>";
             print_r($_SESSION);
             echo "</pre>";*/
+            } else {
+                echo "Login failed" . mysqli_error($conn);
+            }
+        }
+    } else {
+        $url = "index.php";
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $errors = [];
+        if (empty($username)) {
+            $errors['username'] = "Username field is required";
+        }
+        if (empty($password)) {
+            $errors['password'] = "Password field is required";
+        }
+        if (count($errors) > 0) {
+            foreach ($errors as $key => $value) {
+                echo "<h5 style='color: red;'>$value</h5>";
+            }
         } else {
-            echo "Login failed" . mysqli_error($conn);
+            $sql = "SELECT * FROM admins WHERE username = '$username' AND password = '$password'";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_assoc($result);
+                $_SESSION['user_id'] = $row['id'];
+                echo "success";
+                echo $url;
+                // pretty dump session
+                /* echo "<pre>";
+            print_r($_SESSION);
+            echo "</pre>";*/
+            } else {
+                echo "Login failed" . mysqli_error($conn);
+            }
         }
     }
 }
@@ -599,5 +636,185 @@ if (isset($_POST['rating-reply'])) {
         }
     } else {
         echo "Request failed" . mysqli_error($conn);
+    }
+}
+
+// request_id
+if (isset($_POST['request_id'])) {
+    $id = $_POST['request_id'];
+    $sql = "SELECT * FROM requests WHERE id = '$id'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $request_id = $row['id'];
+    $request_name = $row['name'];
+    $request_email = $row['email'];
+    $request_phone = $row['phone'];
+    $request_address = $row['address'];
+    $request_date = $row['date'];
+    $request_message = $row['message'];
+
+    echo '
+        <!-- name -->
+        <h5><b>Name:</b> ' . $request_name . '</h5>
+        <!-- message -->
+        <h5><b>Message:</b> ' . $request_message . '</h5>
+        <!-- date -->
+        <h5><b>Date:</b> ' . $request_date . '</h5>
+        <!-- address -->
+        <h5><b>Address:</b> <span class="driver-copy" title="Click to copy" style="cursor: pointer;"
+        >' . $request_address . '</span></h5>
+        <!-- hint user to copy address and paste in google maps to see the location -->
+        <h6><b>Hint:</b> Copy the address and paste it in <a href="https://maps.google.com/" style="color: blue;" target="_blank">google maps</a> to see the location</h6>
+        <form action="../reg_exe.php" method="post">
+            <input type="hidden" name="request_id" value="' . $request_id . '">
+            <button type="submit" name="accept-request" data-id="' . $request_id . '" class="btn btn-primary accept-request">Accept this request</button>
+        </form>
+        <script>
+        // accept-request
+        $(".accept-request").click(function () {
+            event.preventDefault();
+            $id = $(this).attr("data-id");
+            // ajax request
+            var formData = new FormData();
+            formData.append("request_id", $id);
+            formData.append("accept-request", true);
+            $.ajax({
+                url: "reg_exe.php",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.includes("success")) {
+                        // swal fire success
+                        swal.fire({
+                            title: "Success",
+                            text: "Request accepted successfully!",
+                            icon: "success",
+                            button: "OK",
+                        }).then(function () {
+                            // reload page
+                            location.reload();
+                        });
+                    } else {
+                        // swal fire error
+                        swal.fire({
+                            title: "Error",
+                            html: data,
+                            icon: "error",
+                            button: "OK",
+                        })
+                    }
+                }
+            });
+        });
+        </script>
+
+    ';
+}
+// accept-request
+if (isset($_POST['accept-request'])) {
+    $uid = $_SESSION['user_id'];
+    $request_id = $_POST['request_id'];
+    // update request status to accepted and add driver id
+    $sql = "UPDATE requests SET status = 'accepted', driver = '$uid' WHERE id = '$request_id'";
+    if (mysqli_query($conn, $sql)) {
+        echo "success";
+    } else {
+        echo "Request failed" . mysqli_error($conn);
+    }
+}
+
+// update-profile-admin
+if (isset($_POST['update-profile-admin'])) {
+    $id = $_SESSION['user_id'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $new_password = $_POST['new-password'];
+    $confirm_new_password = $_POST['confirm-new-password'];
+    $temp = $_POST['temp'];
+    if ($temp === "no_image") {
+        $image = '';
+    } else {
+        $image = $_FILES['image']['name'];
+    }
+    $errors = [];
+    if (empty($name)) {
+        $errors['name'] = "Name field is required";
+    }
+    if (empty($email)) {
+        $errors['email'] = "Email field is required";
+    }
+    // get current user password
+    $sql = "SELECT * FROM admins WHERE id = '$id'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $current_password = $row['password'];
+    // if all 3 password fields exist
+    if (!empty($password) && !empty($new_password) && !empty($confirm_new_password)) {
+        // if current password is correct
+        if ($password === $current_password) {
+            // if new password and confirm new password are the same
+            if ($new_password === $confirm_new_password) {
+                $password = $new_password;
+            } else {
+                $errors['password'] = "New password and confirm new password are not the same";
+            }
+        } else {
+            $errors['password'] = "Current password is incorrect";
+        }
+    } else {
+        $password = $current_password;
+    }
+    // if there are no errors
+    if (count($errors) > 0) {
+        foreach ($errors as $key => $value) {
+            echo "<h5 style='color: red;'>$value</h5>";
+        }
+    } else {
+        // if an image is uploaded
+        if ($image != "") {
+            // get image extension
+            $image_extension = pathinfo($image, PATHINFO_EXTENSION);
+            // get image size
+            $image_size = $_FILES['image']['size'];
+            // get image temp name
+            $image_temp_name = $_FILES['image']['tmp_name'];
+            // get image name
+            $image_name = uniqid() . "." . $image_extension;
+            // get image path
+            $image_path = "resources/images/" . $image_name;
+            // if image extension is not jpg, jpeg, png, gif
+            if ($image_extension != "jpg" && $image_extension != "jpeg" && $image_extension != "png" && $image_extension != "gif") {
+                echo "<h5 style='color: red;'>Image extension is not valid</h5>";
+            } else {
+                // if image size is greater than 2MB
+                if ($image_size > 2097152) {
+                    echo "<h5 style='color: red;'>Image size is too large</h5>";
+                } else {
+                    // if image is uploaded successfully
+                    if (move_uploaded_file($image_temp_name, $image_path)) {
+                        // update admin
+                        $sql = "UPDATE admins SET name = '$name', email = '$email', password = '$password', image = '$image_name' WHERE id = '$id'";
+                        if (mysqli_query($conn, $sql)) {
+                            echo "success";
+                        } else {
+                            echo "Request failed" . mysqli_error($conn);
+                        }
+                    } else {
+                        echo "<h5 style='color: red;'>Image upload failed</h5>";
+                    }
+                }
+            }
+        } else {
+            // update admin
+            $sql = "UPDATE admins SET name = '$name', email = '$email', password = '$password' WHERE id = '$id'";
+            if (mysqli_query($conn, $sql)) {
+                echo "success";
+            } else {
+                echo "Request failed" . mysqli_error($conn);
+            }
+        }
     }
 }

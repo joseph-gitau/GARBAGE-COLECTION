@@ -456,7 +456,7 @@ if (isset($_POST['request-reply'])) {
         $to = $email;
         $subject = $subject;
         $message = $message;
-        $headers = "From: noreply@garbageCollection.com";
+        $headers = "From: shakingmachine@rs3.rcnoc.com";
         if (mail($to, $subject, $message, $headers)) {
             // redirect to requests page with success message
             $_SESSION['message'] = "Email sent successfully";
@@ -499,13 +499,13 @@ if (isset($_POST['contact'])) {
             $to = "josephjuma2509@gmail.com";
             $subject = "Contact form";
             $message = "Name: $name \nEmail: $email \nMessage: $message";
-            $headers = "From: Garbage collector: $email";
+            $headers = "From: shakingmachine@rs3.rcnoc.com";
             mail($to, $subject, $message, $headers);
             // send email to user
             $to = $email;
             $subject = "Message received";
             $message = "Thank you for contacting us. We will get back to you shortly.";
-            $headers = "From: Garbage collector system";
+            $headers = "From: shakingmachine@rs3.rcnoc.com";
             mail($to, $subject, $message, $headers);
         } else {
             echo "Request failed" . mysqli_error($conn);
@@ -526,12 +526,12 @@ if (isset($_POST['send-login-details'])) {
             $to = $email;
             $subject = "Login details";
             $message = "Your login details are: \nEmail: $email \nPassword: $password";
-            $headers = "From: Garbage collector system";
+            $headers = "From: shakingmachine@rs3.rcnoc.com";
             // send to admin the driver's details
             $to_admin = "josephjuma2509@gmail.com";
             $subject_admin = "Driver details";
             $message_admin = "Driver's details: \nName: " . $row['name'] . " \nEmail: $email \nPassword: $password";
-            $headers_admin = "From: Garbage collector system";
+            $headers_admin = "From: shakingmachine@rs3.rcnoc.com";
             mail($to_admin, $subject_admin, $message_admin, $headers_admin);
             if (mail($to, $subject, $message, $headers)) {
                 echo "success";
@@ -621,7 +621,7 @@ if (isset($_POST['rating-reply'])) {
             $to = $email;
             $subject = "Reply to your rating";
             $message = "Your rating: \nName: $name \nEmail: $email \nMessage: $message \n\nReply: $reply";
-            $headers = "From: Garbage collector system";
+            $headers = "From: shakingmachine@rs3.rcnoc.com";
             if (mail($to, $subject, $message, $headers)) {
                 echo "success";
             } else {
